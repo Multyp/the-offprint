@@ -1,3 +1,5 @@
+import { templates } from "@/consts/templates";
+
 /**
  * Core data structure for concert memory information
  */
@@ -21,11 +23,11 @@ export interface ConcertMemory {
  */
 export interface CustomizationOptions {
   /** Color scheme theme */
-  colorScheme: 'neon-pink' | 'electric-blue' | 'toxic-green' | 'blood-red';
+  colorScheme: (typeof templates)[number]["id"];
   /** Font style selection */
-  font: 'typewriter' | 'zine' | 'handwritten' | 'creepy' | 'mono';
+  font: "typewriter" | "zine" | "handwritten" | "creepy" | "mono";
   /** Card layout orientation */
-  layout: 'vertical' | 'horizontal';
+  layout: "vertical" | "horizontal";
   /** Whether to apply polaroid-style frame */
   polaroidFrame: boolean;
 }

@@ -1,11 +1,12 @@
-'use client';
+"use client";
 
-import { Palette, Type, Layout, Camera } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
-import { Switch } from '@/components/ui/switch';
-import type { CustomizationOptions } from '@/types/concert';
+import { Palette, Type, Layout, Camera } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import type { CustomizationOptions } from "@/types/concert";
+import { TemplateSelector } from "./TemplateSelector";
 
 interface CustomizationPanelProps {
   /** Current customization options */
@@ -18,20 +19,47 @@ interface CustomizationPanelProps {
  * Panel for customizing the visual appearance of the memory card
  * Includes color schemes, fonts, layout, and special effects
  */
-export function CustomizationPanel({ options, onChange }: CustomizationPanelProps) {
+export function CustomizationPanel({
+  options,
+  onChange,
+}: CustomizationPanelProps) {
   const colorSchemes = [
-    { id: 'neon-pink', name: 'Neon Pink', color: '#ff0080', description: 'Hot pink punk energy' },
-    { id: 'electric-blue', name: 'Electric Blue', color: '#00ffff', description: 'Cyberpunk vibes' },
-    { id: 'toxic-green', name: 'Toxic Green', color: '#39ff14', description: 'Radioactive glow' },
-    { id: 'blood-red', name: 'Blood Red', color: '#ff073a', description: 'Classic punk rage' },
+    {
+      id: "neon-pink",
+      name: "Neon Pink",
+      color: "#ff0080",
+      description: "Hot pink punk energy",
+    },
+    {
+      id: "electric-blue",
+      name: "Electric Blue",
+      color: "#00ffff",
+      description: "Cyberpunk vibes",
+    },
+    {
+      id: "toxic-green",
+      name: "Toxic Green",
+      color: "#39ff14",
+      description: "Radioactive glow",
+    },
+    {
+      id: "blood-red",
+      name: "Blood Red",
+      color: "#ff073a",
+      description: "Classic punk rage",
+    },
   ] as const;
 
   const fonts = [
-    { id: 'typewriter', name: 'Typewriter', description: 'Classic punk zine aesthetic' },
-    { id: 'zine', name: 'Zine Style', description: 'Hand-stamped letters' },
-    { id: 'handwritten', name: 'Handwritten', description: 'Personal touch' },
-    { id: 'creepy', name: 'Horror Punk', description: 'Spooky vibes' },
-    { id: 'mono', name: 'Code Punk', description: 'Digital underground' },
+    {
+      id: "typewriter",
+      name: "Typewriter",
+      description: "Classic punk zine aesthetic",
+    },
+    { id: "zine", name: "Zine Style", description: "Hand-stamped letters" },
+    { id: "handwritten", name: "Handwritten", description: "Personal touch" },
+    { id: "creepy", name: "Horror Punk", description: "Spooky vibes" },
+    { id: "mono", name: "Code Punk", description: "Digital underground" },
   ] as const;
 
   const updateOption = <K extends keyof CustomizationOptions>(
@@ -49,41 +77,10 @@ export function CustomizationPanel({ options, onChange }: CustomizationPanelProp
           DIY CUSTOMIZATION
         </CardTitle>
       </CardHeader>
-      
+
       <CardContent className="space-y-6 p-6">
-        {/* Color Schemes */}
-        <div className="space-y-3">
-          <Label className="flex items-center gap-2 font-typewriter font-bold">
-            <Palette className="w-4 h-4" />
-            Color Scheme
-          </Label>
-          <div className="grid grid-cols-2 gap-2">
-            {colorSchemes.map((scheme) => (
-              <Button
-                key={scheme.id}
-                variant={options.colorScheme === scheme.id ? "default" : "outline"}
-                className={`p-3 h-auto flex-col items-start text-left relative overflow-hidden font-typewriter ${
-                  options.colorScheme === scheme.id 
-                    ? 'bg-black text-white border-2' 
-                    : 'hover:bg-gray-50'
-                }`}
-                onClick={() => updateOption('colorScheme', scheme.id)}
-              >
-                <div className="flex items-center gap-2 w-full">
-                  <div
-                    className="w-4 h-4 rounded-full border-2 border-gray-300"
-                    style={{ backgroundColor: scheme.color }}
-                  />
-                  <span className="font-bold text-sm">{scheme.name}</span>
-                </div>
-                <span className="text-xs opacity-70 mt-1">{scheme.description}</span>
-                {options.colorScheme === scheme.id && (
-                  <div className="absolute inset-0 border-2 border-current pointer-events-none" />
-                )}
-              </Button>
-            ))}
-          </div>
-        </div>
+        {/* Template Schemes */}
+        <TemplateSelector options={options} onChange={onChange} />
 
         {/* Font Selection */}
         <div className="space-y-3">
@@ -97,11 +94,11 @@ export function CustomizationPanel({ options, onChange }: CustomizationPanelProp
                 key={font.id}
                 variant={options.font === font.id ? "default" : "outline"}
                 className={`w-full p-3 h-auto flex-col items-start text-left font-typewriter ${
-                  options.font === font.id 
-                    ? 'bg-black text-white border-2' 
-                    : 'hover:bg-gray-50'
+                  options.font === font.id
+                    ? "bg-black text-white border-2"
+                    : "hover:bg-gray-50"
                 }`}
-                onClick={() => updateOption('font', font.id)}
+                onClick={() => updateOption("font", font.id)}
               >
                 <span className="font-bold text-sm">{font.name}</span>
                 <span className="text-xs opacity-70">{font.description}</span>
@@ -118,24 +115,24 @@ export function CustomizationPanel({ options, onChange }: CustomizationPanelProp
           </Label>
           <div className="flex gap-2">
             <Button
-              variant={options.layout === 'vertical' ? "default" : "outline"}
+              variant={options.layout === "vertical" ? "default" : "outline"}
               className={`flex-1 font-typewriter ${
-                options.layout === 'vertical' 
-                  ? 'bg-black text-white' 
-                  : 'hover:bg-gray-50'
+                options.layout === "vertical"
+                  ? "bg-black text-white"
+                  : "hover:bg-gray-50"
               }`}
-              onClick={() => updateOption('layout', 'vertical')}
+              onClick={() => updateOption("layout", "vertical")}
             >
               Vertical
             </Button>
             <Button
-              variant={options.layout === 'horizontal' ? "default" : "outline"}
+              variant={options.layout === "horizontal" ? "default" : "outline"}
               className={`flex-1 font-typewriter ${
-                options.layout === 'horizontal' 
-                  ? 'bg-black text-white' 
-                  : 'hover:bg-gray-50'
+                options.layout === "horizontal"
+                  ? "bg-black text-white"
+                  : "hover:bg-gray-50"
               }`}
-              onClick={() => updateOption('layout', 'horizontal')}
+              onClick={() => updateOption("layout", "horizontal")}
             >
               Horizontal
             </Button>
@@ -144,14 +141,19 @@ export function CustomizationPanel({ options, onChange }: CustomizationPanelProp
 
         {/* Polaroid Frame Toggle */}
         <div className="flex items-center justify-between">
-          <Label htmlFor="polaroid" className="flex items-center gap-2 font-typewriter font-bold">
+          <Label
+            htmlFor="polaroid"
+            className="flex items-center gap-2 font-typewriter font-bold"
+          >
             <Camera className="w-4 h-4" />
             Polaroid Frame Effect
           </Label>
           <Switch
             id="polaroid"
             checked={options.polaroidFrame}
-            onCheckedChange={(checked) => updateOption('polaroidFrame', checked)}
+            onCheckedChange={(checked) =>
+              updateOption("polaroidFrame", checked)
+            }
           />
         </div>
       </CardContent>

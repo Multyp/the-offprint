@@ -7,6 +7,7 @@ import { CustomizationPanel } from "@/components/CustomizationPanel";
 import { PDFGenerator } from "@/components/PDFGenerator";
 import { Header } from "@/components/Header";
 import type { ConcertMemory, CustomizationOptions } from "@/types/concert";
+import { templates } from "@/consts/templates";
 
 export default function Home() {
   const [concertData, setConcertData] = useState<ConcertMemory>({
@@ -19,12 +20,9 @@ export default function Home() {
   });
 
   const [customization, setCustomization] = useState<CustomizationOptions>({
-    colorScheme: "neon-pink",
-    font: "typewriter",
+    ...templates[0].config,
     layout: "vertical",
-    polaroidFrame: false,
   });
-
   const [isGenerating, setIsGenerating] = useState(false);
 
   return (
